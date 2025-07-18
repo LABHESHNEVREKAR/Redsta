@@ -1,5 +1,6 @@
 import praw
 import os
+import random
 from dotenv import load_dotenv
 
 load_dotenv() 
@@ -14,22 +15,27 @@ reddit = praw.Reddit(
 def fetch_image_post(subreddit_name):
     sub = reddit.subreddit(subreddit_name)
 
-    for post in sub.hot(limit=100):
+    image_posts = []
+    for post in sub.hot(limit=1000):  # 10k may timeout sometimes
         if post.stickied:
             continue
 
         url = post.url.lower()
 
-        # ✅ Filter valid image links only
         if (
             any(domain in url for domain in ["i.redd.it", "i.imgur.com", "preview.redd.it"])
             and url.endswith((".jpg", ".jpeg", ".png"))
         ):
-            return {
-                "title": post.title,
-                "author": post.author.name if post.author else "unknown",
-                "image_url": post.url
-            }
+            image_posts.append(post)
 
-    print("❌ No valid image post found in hot list.")
+    if image_posts:
+        post = random.choice(image_posts)
+        return {
+            "title": post.title,
+            "author": post.author.name if post.author else "unknown",
+            "image_url": post.url
+        }
+
+    print("❌ No valid image post found.")
     return None
+

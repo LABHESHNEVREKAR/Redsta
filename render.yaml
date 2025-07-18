@@ -2,6 +2,7 @@ services:
   - type: web
     name: redsta
     env: python
+    plan: free
     buildCommand: ./build.sh 
     startCommand: ./venv/bin/gunicorn app:app
     envVars:
