@@ -1,3 +1,6 @@
+pip install --upgrade pip
+pip install -r requirements.txt
+
 #!/usr/bin/env bash
 echo "Installing Python 3.11..."
 apt-get update
