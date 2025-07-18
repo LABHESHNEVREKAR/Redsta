@@ -4,7 +4,7 @@ services:
     env: python
     plan: free
     buildCommand: ./build.sh 
-    startCommand: ./venv/bin/gunicorn app:app
+    startCommand: gunicorn app:app
     envVars:
       - key: REDDIT_CLIENT_ID
         value: x0-s9IIq4QznA0UxhdjK2w
